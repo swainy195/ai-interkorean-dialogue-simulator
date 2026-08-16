@@ -15,3 +15,6 @@ apps/web/.vite/
 apps/api/.ruff_cache/
 
 data/processed/**/.DS_Store
+
+# Large generated embedding artifact; keep locally and in Supabase, not Git.
+data/processed/chunks/embedded_chunks.jsonl
