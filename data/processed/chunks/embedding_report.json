@@ -1,0 +1,11 @@
+{
+  "model": "nvidia/nemotron-3-embed-1b:free",
+  "dimension": 2048,
+  "source_chunks": 2468,
+  "embedded": 2468,
+  "skipped_cached": 2289,
+  "failed": 0,
+  "requests": 12,
+  "tokens": 119334,
+  "failures": []
+}

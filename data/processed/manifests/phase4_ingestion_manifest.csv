@@ -1,0 +1,5 @@
+﻿source,input_count,processed_count,inserted_count,updated_count,skipped_count,warning_count,error_count
+meetings_csv_3_sources,1618,933,n/a,n/a,0,251,0
+agreements_api,474,79,n/a,n/a,395,0,0
+agreement_commentaries,83,83,n/a,n/a,0,13,0
+historical_events_csv,1041,1041,n/a,n/a,0,0,0

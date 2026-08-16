@@ -1,0 +1,5 @@
+﻿source_type,document_count,chunk_count,min_chunk_length,max_chunk_length,avg_chunk_length,empty_chunk_count,too_short_count,too_long_count,duplicate_chunk_count,warning_count
+agreement,79,175,70,1453,833.01,0,31,0,0,0
+agreement_commentary,83,319,35,1200,1019.28,0,15,0,0,0
+meeting,933,933,66,851,102.98,0,929,0,0,933
+historical_event,1041,1041,49,468,115.52,0,1019,0,0,1041

@@ -1,0 +1,17 @@
+.env
+.env.*
+!.env.example
+
+node_modules/
+dist/
+coverage/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+apps/web/.vite/
+apps/api/.ruff_cache/
+
+data/processed/**/.DS_Store

@@ -1,0 +1,87 @@
+{
+  "meetings": {
+    "source_rows": 1618,
+    "main_rows": 667,
+    "held_rows": 680,
+    "annual_rows": 271,
+    "processed": 933,
+    "warnings": 251,
+    "db_rows": 933
+  },
+  "agreements": {
+    "total_count": 480,
+    "pages": 12,
+    "date_ranges": [
+      [
+        "19900101",
+        "20251231",
+        "1",
+        "북측"
+      ],
+      [
+        "19900101",
+        "20251231",
+        "2",
+        "북측"
+      ],
+      [
+        "19900101",
+        "20251231",
+        "3",
+        "북측"
+      ],
+      [
+        "19900101",
+        "20251231",
+        "4",
+        "북측"
+      ],
+      [
+        "19900101",
+        "20251231",
+        "5",
+        "북측"
+      ],
+      [
+        "19900101",
+        "20251231",
+        "6",
+        "북측"
+      ]
+    ],
+    "date_range": [
+      "19900101",
+      "20251231"
+    ],
+    "partitions": 6,
+    "fetched": 474,
+    "processed": 79,
+    "duplicates": 395,
+    "date_warnings": 0,
+    "db_rows": 79,
+    "empty_content": 0,
+    "title_missing": 0,
+    "source_url_missing": 0
+  },
+  "agreement_commentaries": {
+    "source": 83,
+    "processed": 83,
+    "warnings": 13,
+    "empty_content": 0,
+    "title_missing": 0,
+    "db_rows": 83
+  },
+  "historical_events": {
+    "source_rows": 1041,
+    "processed": 1041,
+    "date_warnings": 0,
+    "db_rows": 1041
+  },
+  "final_counts": {
+    "meetings": 933,
+    "agreements": 79,
+    "meeting_documents": 83,
+    "historical_events": 1041,
+    "document_chunks": 0
+  }
+}
