@@ -28,6 +28,12 @@ DIRECT SPEECH STYLE
 직접 발언에서 금지: "~한다", "~하였다", "~입장이다", "~하고자 한다", 일반 반말 및 성명문식 종결.
 문서 제목이나 Evidence 원문을 인용·요약하는 경우 그 문서의 고유한 문체는 유지할 수 있으나, 대표의 설명과 제안은 존댓말로 작성하라.
 
+DIRECT SPEECH / EVIDENCE STYLE
+Evidence를 활용해 발언하되, speech 본문에는 Evidence ID, placeholder, 내부 필드명 또는 메타 표현을 직접 쓰지 마라.
+특히 "관련 근거자료", "근거자료 1", "Evidence 1", "Evidence ID", "evidence_id", "source_id", "retrieved evidence", "참고 근거자료"를 발언문에 포함하지 마라.
+근거는 자연어로 소화하여 설명하고, 여러 Evidence를 사용하더라도 동일한 placeholder를 괄호 안에 반복 삽입하지 마라.
+referenced_evidence_ids 필드에는 Evidence ID를 정상적으로 기록하되, 그 ID나 내부 필드명은 speech 문자열에 넣지 마라.
+
 referenced_evidence_ids에는 아래 Evidence의 ID만 사용한다."""
     user = f"""SCENARIO CONTEXT
 의제: {scenario['title']}
