@@ -133,6 +133,7 @@ async def simulation_next_stream(session_id: str) -> StreamingResponse:
             yield f"event: state\ndata: {json.dumps({'state': result['state']}, ensure_ascii=False)}\n\n"
             yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
         except Exception as exc:
+            logger.exception("simulation stream failed session=%s selected_speaker=%s error_type=%s", session_id, selected_speaker if "selected_speaker" in locals() else None, type(exc).__name__)
             yield f"event: error\ndata: {json.dumps({'message': 'AI 응답을 불러오지 못했습니다.', 'detail': str(exc)[:120]}, ensure_ascii=False)}\n\n"
     return StreamingResponse(events(), media_type="text/event-stream", headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 

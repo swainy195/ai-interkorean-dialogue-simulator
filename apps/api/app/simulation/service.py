@@ -1,8 +1,11 @@
 from __future__ import annotations
 
 import uuid
+import logging
 from typing import Any
 
+from app.agents.personas import get_persona
+from app.config import get_settings
 from app.agents.scenarios import get_scenario
 
 from .engine import choose_speaker, deterministic_summary, run_agent_turn, update_state
@@ -10,6 +13,9 @@ from .evaluator import evaluate
 from .moderator import call_moderator, moderate, moderator_trigger
 from .repository import create_session, fetch_evidence, fetch_result, load_session, load_turns, save_result, save_turn
 from .schemas import SimulationCreate, SimulationState, UserTurnRequest
+
+
+logger = logging.getLogger(__name__)
 
 
 def create(request: SimulationCreate) -> SimulationState:
@@ -26,7 +32,12 @@ async def next_turn(session_id: str) -> dict[str, Any]:
     if state.status != "RUNNING":
         raise ValueError(f"session is terminal: {state.status}")
     turns = load_turns(session_id)
-    speaker, response = await run_agent_turn(state, turns, relationship)
+    planned_speaker = choose_speaker(state.current_round + 1, turns[-1]["intent"] if turns else None)
+    try:
+        speaker, response = await run_agent_turn(state, turns, relationship)
+    except Exception as exc:
+        logger.exception("agent turn failed session=%s round=%s agent=%s agent_name=%s model=%s error_type=%s", session_id, state.current_round + 1, planned_speaker, get_persona(planned_speaker).name, get_settings().openrouter_chat_model, type(exc).__name__)
+        raise
     state = update_state(state, response, speaker)
     state.conversation_summary = deterministic_summary(state, turns + [{"speaker_agent_id": speaker, "message": response["response"]["speech"], "intent": response["response"]["intent"]}])
     recommendation = moderate(state, response)

@@ -6,6 +6,7 @@ import re
 from typing import Any
 
 import httpx
+import logging
 
 from app.config import get_settings
 
@@ -14,6 +15,9 @@ from .prompts import build_prompt
 from .repository import search_chunks
 from .scenarios import get_scenario
 from .schemas import AgentRequest, AgentResponse
+
+
+logger = logging.getLogger(__name__)
 
 
 def parse_json_object(text: str) -> dict[str, Any]:
@@ -66,6 +70,7 @@ async def chat(messages: list[dict[str, str]]) -> tuple[dict[str, Any], dict[str
             try:
                 response = await client.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=payload)
                 if response.status_code in {429, 500, 502, 503, 504} and attempt < 2:
+                    logger.warning("OpenRouter chat retry model=%s attempt=%s status=%s", settings.openrouter_chat_model, attempt + 1, response.status_code)
                     await asyncio.sleep(0.5 * (attempt + 1))
                     continue
                 response.raise_for_status()
@@ -74,6 +79,8 @@ async def chat(messages: list[dict[str, str]]) -> tuple[dict[str, Any], dict[str
                 return parse_json_object(content), body.get("usage") or {}
             except (httpx.HTTPError, KeyError, IndexError, ValueError) as exc:
                 last_error = exc
+                status = getattr(getattr(exc, "response", None), "status_code", None)
+                logger.warning("OpenRouter chat attempt failed model=%s attempt=%s status=%s error_type=%s", settings.openrouter_chat_model, attempt + 1, status, type(exc).__name__)
                 if attempt < 2:
                     await asyncio.sleep(0.5 * (attempt + 1))
         raise RuntimeError(f"chat response failed: {last_error}")
