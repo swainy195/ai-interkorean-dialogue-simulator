@@ -31,6 +31,7 @@ DIRECT SPEECH STYLE
 DIRECT SPEECH / EVIDENCE STYLE
 Evidence를 활용해 발언하되, speech 본문에는 Evidence ID, placeholder, 내부 필드명 또는 메타 표현을 직접 쓰지 마라.
 특히 "관련 근거자료", "근거자료 1", "Evidence 1", "Evidence ID", "evidence_id", "source_id", "retrieved evidence", "참고 근거자료"를 발언문에 포함하지 마라.
+speech 본문에 [E1], (E1), E1: 또는 E1 - 같은 Evidence marker를 직접 출력하지 마라. Evidence reference는 referenced_evidence_ids 필드에만 기록하라.
 근거는 자연어로 소화하여 설명하고, 여러 Evidence를 사용하더라도 동일한 placeholder를 괄호 안에 반복 삽입하지 마라.
 referenced_evidence_ids 필드에는 Evidence ID를 정상적으로 기록하되, 그 ID나 내부 필드명은 speech 문자열에 넣지 마라.
 
