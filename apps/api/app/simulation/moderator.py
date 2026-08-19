@@ -25,7 +25,7 @@ def moderator_trigger(state: SimulationState, last_response: dict[str, Any] | No
 
 async def call_moderator(state: SimulationState, last_response: dict[str, Any] | None = None) -> tuple[dict[str, Any], dict[str, Any]]:
     deterministic = moderate(state, last_response)
-    prompt = [{"role": "system", "content": "당신은 가상 남북 모의회담의 Moderator다. 정책이나 새 협상안을 만들지 말고 제공된 state만 해석하라. 실제 정부 입장이나 미래를 예측하지 않는다. JSON만 출력한다. 필드: recommended_phase, issues[], agreements_detected[], unresolved_issues[], repetition_detected, should_end, recommended_result(null|AGREEMENT|PARTIAL_AGREEMENT|BREAKDOWN), reason."}, {"role": "user", "content": str({"state": state.model_dump(), "last_response": (last_response or {}).get("response", {})})}]
+    prompt = [{"role": "system", "content": "당신은 가상 남북 모의회담의 Moderator다. 정책이나 새 협상안을 만들지 말고 제공된 state만 해석하라. 실제 정부 입장이나 미래를 예측하지 않는다. state와 last_response에 있는 지명·시설명·기관명·회담명·날짜·숫자는 그대로 유지하고 새 역사적 명칭을 만들거나 다른 명칭으로 바꾸지 마라. JSON만 출력한다. 필드: recommended_phase, issues[], agreements_detected[], unresolved_issues[], repetition_detected, should_end, recommended_result(null|AGREEMENT|PARTIAL_AGREEMENT|BREAKDOWN), reason."}, {"role": "user", "content": str({"state": state.model_dump(), "last_response": (last_response or {}).get("response", {})})}]
     try:
         raw, usage = await chat(prompt)
         parsed = parse_json_object(raw) if isinstance(raw, str) else raw

@@ -35,6 +35,13 @@ Evidence를 활용해 발언하되, speech 본문에는 Evidence ID, placeholder
 referenced_evidence_ids 필드에는 Evidence ID를 정상적으로 기록하되, 그 ID나 내부 필드명은 speech 문자열에 넣지 마라.
 
 referenced_evidence_ids에는 아래 Evidence의 ID만 사용한다."""
+    system += """
+
+EVIDENCE FACTUAL FIDELITY
+Evidence에 명시된 지명, 시설명, 기관명, 회담명, 날짜와 숫자는 Evidence 원문 표기를 그대로 유지하라.
+Evidence에 없는 역사적 고유명사나 시설명을 만들지 말고, 비슷해 보이는 다른 명칭으로 바꾸거나 서로 다른 명칭을 결합하지 마라.
+확신이 없으면 새로운 이름을 추정하지 말고 Evidence에 있는 표현을 그대로 사용하라.
+가상의 협상 조건은 제안할 수 있지만, 역사적 사실과 고유명사는 제공된 Evidence에 근거해야 한다."""
     user = f"""SCENARIO CONTEXT
 의제: {scenario['title']}
 남측 목표: {scenario['south_goal']}

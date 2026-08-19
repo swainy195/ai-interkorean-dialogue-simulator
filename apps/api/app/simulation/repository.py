@@ -67,5 +67,5 @@ def fetch_result(session_id: str) -> dict[str, Any] | None:
 
 def fetch_evidence(session_id: str) -> list[dict[str, Any]]:
     with connect() as conn, conn.cursor() as cur:
-        cur.execute("select se.turn_id::text,se.document_chunk_id::text,se.similarity,se.rank,dc.document_id,dc.title,dc.source_type,dc.source_url from public.simulation_evidence se join public.document_chunks dc on dc.id=se.document_chunk_id where se.session_id=%s order by se.turn_id,se.rank", (session_id,))
-        return [{"turn_id": r[0], "document_chunk_id": r[1], "similarity": r[2], "rank": r[3], "document_id": r[4], "title": r[5], "source_type": r[6], "source_url": r[7]} for r in cur.fetchall()]
+        cur.execute("select se.turn_id::text,se.document_chunk_id::text,se.similarity,se.rank,dc.document_id,dc.title,dc.source_type,dc.source_url,dc.meeting_date from public.simulation_evidence se join public.document_chunks dc on dc.id=se.document_chunk_id where se.session_id=%s order by se.turn_id,se.rank", (session_id,))
+        return [{"turn_id": r[0], "document_chunk_id": r[1], "similarity": r[2], "rank": r[3], "document_id": r[4], "title": r[5], "source_type": r[6], "source_url": r[7], "meeting_date": r[8].isoformat() if r[8] else None} for r in cur.fetchall()]

@@ -92,4 +92,4 @@ async def respond(request: AgentRequest) -> dict[str, Any]:
     invalid = sorted(set(parsed.referenced_evidence_ids) - allowed)
     if invalid:
         raise ValueError(f"invalid evidence IDs: {', '.join(invalid)}")
-    return {"agent": {"key": persona.key, "name": persona.name, "side": persona.side, "role": persona.role}, "response": parsed.model_dump(), "evidence": [{key: item[key] for key in ("id", "chunk_id", "document_id", "title", "source_type", "source_url", "similarity", "content")} for item in evidence], "usage": usage}
+    return {"agent": {"key": persona.key, "name": persona.name, "side": persona.side, "role": persona.role}, "response": parsed.model_dump(), "evidence": [{key: item[key] for key in ("id", "chunk_id", "document_id", "title", "source_type", "source_url", "similarity", "meeting_date", "content")} for item in evidence], "usage": usage}
