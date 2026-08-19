@@ -17,7 +17,7 @@ export const getSuggestions = (id: string) => request<{ suggestions: string[] }>
 export const getEvidence = (id: string) => request<{ evidence: Record<string, any>[] }>(`/api/v1/simulations/${id}/evidence`);
 export const getSimulation = (id: string) => request<{ session_id: string; state: State }>(`/api/v1/simulations/${id}`);
 
-export async function streamNext(id: string, onToken: (text: string) => void): Promise<Record<string, any>> {
+export async function streamNext(id: string, onToken: (text: string) => void, onSpeaker?: (speakerId: string, status: string) => void): Promise<Record<string, any>> {
   const response = await fetch(`${API_BASE}/api/v1/simulations/${id}/next/stream`, { method: "POST" });
   if (!response.ok || !response.body) throw new Error("Streaming을 시작하지 못했습니다.");
   const reader = response.body.getReader();
@@ -34,6 +34,7 @@ export async function streamNext(id: string, onToken: (text: string) => void): P
       const data = event.split("\n").find((line) => line.startsWith("data: "))?.slice(6);
       if (!data) continue;
       const parsed = JSON.parse(data) as Record<string, any>;
+      if (event.startsWith("event: agent_state")) { const speakerId = parsed.speaker_id || parsed.agent; if (speakerId) onSpeaker?.(speakerId, parsed.status || ""); }
       if (event.startsWith("event: token")) onToken(parsed.text || "");
       if (event.startsWith("event: done")) final = parsed;
       if (event.startsWith("event: error")) throw new Error(parsed.message || "Streaming 오류");

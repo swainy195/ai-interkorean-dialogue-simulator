@@ -5,7 +5,7 @@ from typing import Any
 
 from app.agents.scenarios import get_scenario
 
-from .engine import deterministic_summary, run_agent_turn, update_state
+from .engine import choose_speaker, deterministic_summary, run_agent_turn, update_state
 from .evaluator import evaluate
 from .moderator import call_moderator, moderate, moderator_trigger
 from .repository import create_session, fetch_evidence, fetch_result, load_session, load_turns, save_result, save_turn
@@ -47,6 +47,12 @@ async def next_turn(session_id: str) -> dict[str, Any]:
         save_result(session_id, evaluated)
         result = {**evaluated, "usage": usage}
     return {"state": state.model_dump(), "turn": turn, "result": result, "moderator": moderator_result or recommendation, "moderator_usage": moderator_usage}
+
+
+def next_speaker(session_id: str) -> str:
+    state, _ = load_session(session_id)
+    turns = load_turns(session_id)
+    return choose_speaker(state.current_round + 1, turns[-1]["intent"] if turns else None)
 
 
 async def user_turn(session_id: str, request: UserTurnRequest) -> dict[str, Any]:

@@ -1,4 +1,5 @@
 import os
+import logging
 from typing import Any
 
 from fastapi import FastAPI
@@ -12,7 +13,10 @@ from app.connectivity import check_openrouter, check_public_data, check_supabase
 from app.agents.schemas import AgentRequest
 from app.agents.service import respond
 from app.simulation.schemas import SimulationCreate, UserTurnRequest
-from app.simulation.service import create as create_simulation, get as get_simulation, get_evidence as get_simulation_evidence, get_result as get_simulation_result, next_turn, suggestions, user_turn
+from app.simulation.service import create as create_simulation, get as get_simulation, get_evidence as get_simulation_evidence, get_result as get_simulation_result, next_speaker, next_turn, suggestions, user_turn
+
+
+logger = logging.getLogger(__name__)
 
 
 def allowed_origins() -> list[str]:
@@ -114,12 +118,15 @@ def simulation_suggestions(session_id: str) -> dict[str, Any]:
 async def simulation_next_stream(session_id: str) -> StreamingResponse:
     async def events():
         try:
-            state = get_simulation(session_id)
-            yield f"event: agent_state\ndata: {json.dumps({'agent': state.active_speaker, 'status': 'thinking'}, ensure_ascii=False)}\n\n"
+            selected_speaker = next_speaker(session_id)
+            yield f"event: agent_state\ndata: {json.dumps({'speaker_id': selected_speaker, 'agent': selected_speaker, 'status': 'thinking'}, ensure_ascii=False)}\n\n"
             await asyncio.sleep(0)
             result = await next_turn(session_id)
+            actual_speaker = (result.get("turn") or {}).get("speaker_agent_id")
+            if actual_speaker != selected_speaker:
+                logger.warning("SSE speaker mismatch session=%s selected=%s actual=%s", session_id, selected_speaker, actual_speaker)
             speech = (result.get("turn") or {}).get("message", "")
-            yield f"event: agent_state\ndata: {json.dumps({'agent': (result.get('turn') or {}).get('speaker_agent_id'), 'status': 'speaking'}, ensure_ascii=False)}\n\n"
+            yield f"event: agent_state\ndata: {json.dumps({'speaker_id': actual_speaker, 'agent': actual_speaker, 'status': 'speaking'}, ensure_ascii=False)}\n\n"
             for index in range(0, len(speech), 80):
                 yield f"event: token\ndata: {json.dumps({'text': speech[index:index+80]}, ensure_ascii=False)}\n\n"
             yield f"event: evidence\ndata: {json.dumps({'evidence': (result.get('turn') or {}).get('evidence', [])}, ensure_ascii=False)}\n\n"

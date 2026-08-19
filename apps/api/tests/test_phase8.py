@@ -32,6 +32,7 @@ def test_stream_endpoint_emits_events(monkeypatch) -> None:
     from app.simulation.schemas import SimulationState
 
     monkeypatch.setattr("app.main.get_simulation", lambda session_id: SimulationState(session_id=session_id, scenario_id="separated_families"))
+    monkeypatch.setattr("app.main.next_speaker", lambda session_id: "north_chief")
     async def fake_next(session_id):
         return {"state": {"status": "RUNNING"}, "turn": {"speaker_agent_id": "north_chief", "message": "응답"}, "result": None}
 
@@ -39,4 +40,6 @@ def test_stream_endpoint_emits_events(monkeypatch) -> None:
     response = TestClient(app).post("/api/v1/simulations/test/next/stream")
     assert response.status_code == 200
     assert "event: token" in response.text
+    assert '"speaker_id": "north_chief"' in response.text
+    assert response.text.count("event: agent_state") == 2
     assert "event: done" in response.text
