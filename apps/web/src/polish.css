@@ -8,7 +8,7 @@
 .speech-bubble-header span{font-size:10px;color:#586b72;font-weight:700}
 .speech-bubble-header em{font-style:normal;font-size:9px;color:#9a6d72;font-weight:800;margin-left:auto}
 .speech-bubble .speech-content{max-width:42ch;text-align:left;word-break:keep-all;overflow-wrap:break-word}
-.speech-bubble .speech-content.preview{max-height:118px;overflow:hidden}
+.speech-bubble .speech-content.preview{overflow:visible}
 .speech-bubble .speech-paragraph{margin:10px 0 0;padding-left:9px;border-left:2px solid transparent;line-height:1.62;font-size:12px;color:#3c4b51;text-align:left;word-break:keep-all;overflow-wrap:break-word}
 .speech-bubble .speech-paragraph:last-child{margin-bottom:0}
 .speech-bubble .speech-paragraph.proposal{border-left-color:#64869a}.speech-bubble .speech-paragraph.condition{border-left-color:#b08a55}.speech-bubble .speech-paragraph.concession{border-left-color:#9a6d72}.speech-bubble .speech-paragraph.neutral{border-left-color:#d2c7b8}
