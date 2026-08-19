@@ -32,6 +32,8 @@
 @media(max-width:600px){.speech-bubble{width:78%;top:75px;padding:11px 13px}.speech-bubble-header em{margin-left:0}.speech-bubble .speech-paragraph{font-size:11px;line-height:1.6;margin-top:8px}.speech-panel-body{max-height:300px;padding:16px}.speech-panel-heading{padding:15px 16px}.creator-credit{right:14px;bottom:12px}.simulation .creator-credit{bottom:12px}.simulation-bar{padding:9px 16px}}
 @keyframes speechBubbleIn{from{opacity:0;transform:translateX(-50%) translateY(4px) scale(.985)}to{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
 
+.analysis-section li{word-break:keep-all;overflow-wrap:break-word;line-break:strict;white-space:normal}
+
 .character.active .nameplate{border:1px solid rgba(129,86,78,.45)}
 
 .room-footer{color:#222222;opacity:.9;font-weight:500}

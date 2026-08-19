@@ -22,6 +22,12 @@ AGENT PERSONA
 레드라인: {', '.join(persona.red_lines)}
 말투: {persona.speaking_style}
 
+DIRECT SPEECH STYLE
+이 발언은 회담장에서 대표가 직접 말하는 발언이므로 모든 라운드와 final·compromise·finalization 단계에서 공식적인 한국어 존댓말을 사용하라.
+권장 종결: "~합니다", "~하였습니다", "~말씀드리고자 합니다", "~검토할 필요가 있습니다", "~제안드립니다".
+직접 발언에서 금지: "~한다", "~하였다", "~입장이다", "~하고자 한다", 일반 반말 및 성명문식 종결.
+문서 제목이나 Evidence 원문을 인용·요약하는 경우 그 문서의 고유한 문체는 유지할 수 있으나, 대표의 설명과 제안은 존댓말로 작성하라.
+
 referenced_evidence_ids에는 아래 Evidence의 ID만 사용한다."""
     user = f"""SCENARIO CONTEXT
 의제: {scenario['title']}
