@@ -105,7 +105,7 @@ async def run_agent_turn(state: SimulationState, turns: list[dict[str, Any]], re
     speaker = forced_speaker or choose_speaker(state.current_round + 1, turns[-1]["intent"] if turns else None)
     scenario = get_scenario(state.scenario_id)
     opponent = turns[-1]["message"] if turns else "회담을 시작하겠습니다."
-    context = {"phase": next_phase(state.current_round + 1), "active_issues": state.issues[-4:], "current_agreements": state.agreements[-3:], "current_unresolved": state.unresolved_issues[-4:], "latest_proposal": (state.proposals + [""])[-1], "latest_counterproposal": (state.counter_proposals + [""])[-1], "summary": state.conversation_summary[-700:], "instruction": "최근 2개 발언과 동일한 주장을 반복하지 말고 수정안·조건부 수용·일정 조정·절차 제안 중 하나로 진전시켜라."}
+    context = {"phase": next_phase(state.current_round + 1), "current_phase": next_phase(state.current_round + 1), "current_round": state.current_round + 1, "max_rounds": state.max_rounds, "previous_speaker": turns[-1]["speaker_agent_id"] if turns else None, "previous_turn": opponent, "previous_intent": turns[-1].get("intent") if turns else None, "active_issues": state.issues[-4:], "current_agreements": state.agreements[-3:], "current_unresolved": state.unresolved_issues[-4:], "latest_proposal": (state.proposals + [""])[-1], "latest_counterproposal": (state.counter_proposals + [""])[-1], "summary": state.conversation_summary[-700:], "instruction": "최근 2개 발언과 동일한 주장을 반복하지 말고 수정안·조건부 수용·일정 조정·절차 제안 중 하나로 진전시켜라."}
     opponent = opponent[-750:]
     result = await respond(AgentRequest(agent=speaker, scenario=state.scenario_id, relationship_state=relationship_state, opponent_message=opponent, negotiation_context=context))
     return speaker, result
